@@ -1,12 +1,19 @@
 // Oldal inicializálása
 
 $(document).ready(() => {
-	$('#content').load('menu.html');
+	menu();
 });
 
 let size;
 let editedField;
+let fields = [];
+let colors = [];
+let timer;
 
+function menu() {
+	clearInterval(timer);
+	$('#content').load('menu.html');
+}
 //Kezdő állapot
 function start(_size, difficulty) {
 	size = _size;
@@ -33,10 +40,6 @@ function start(_size, difficulty) {
 		}
 	}
 	
-	console.log('emptyPositions: ' + emptyPositions);
-	console.log('size: ' + size);
-	
-	
 	$('#content').load('table.html', () => {
 		let tbody = document.getElementById('t');
 		do {
@@ -53,7 +56,6 @@ function start(_size, difficulty) {
 				tbody.appendChild(row);
 			}
 		} while (isInvalid());
-		
 		
 		let empties = [];
 		for (let i = 0; i < emptyPositions; i++) {
@@ -81,8 +83,23 @@ function start(_size, difficulty) {
 			colorControl.addEventListener('click', e => {
 				if (editedField.getRemainingColors().filter(remaining => e.srcElement.className === remaining).length > 0) {
 					editedField.td.className = colorControl.className;
-					editedField = null;
 					$('#control').hide();
+					if (isWin() === 0) {
+						$('#content').load('win.html', () => {
+							console.log('win');
+							
+							let count = 1;
+							timer = setInterval(function() {
+								$('#restart').val('Vissza a menübe (' + (15 - count) + ')');
+								count++;
+								if(count > 15) {
+									menu();
+								}
+							}, 1000);
+							
+						});
+					}
+					editedField = null;
 				}
 			}, true);
 			cr.appendChild(colorControl);
@@ -93,8 +110,9 @@ function start(_size, difficulty) {
 	});
 }
 
-let fields = [];
-let colors = [];
+function isWin() {
+	return fields.filter(field => field.td.className === '').length;
+}
 
 function nonEditableFields() {
 	return fields.filter(field => field.td.className !== '');
@@ -113,12 +131,9 @@ class Field {
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;
-		this.editable = false;
 		this.td = document.createElement('td');
 		this.td.id = 'x' + this.x + 'y' + this.y;
 		
-		this.td.innerHTML = 'pos: x: ' + this.x + ' y: ' + this.y;
-		console.log('this.td.innerHTML: ' + this.td.innerHTML);
 		let remainingColors = this.getRemainingColors();
 		this.td.className = remainingColors[Math.floor(Math.random() * remainingColors.length)];
 	}
