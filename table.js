@@ -50,7 +50,6 @@ function start(_size, difficulty) {
 				for (let j = 0; j < size; j++) {
 					let f = new Field(i, j);
 					fields.push(f);
-					console.log('asd');
 					row.appendChild(f.td);
 				}
 				tbody.appendChild(row);
@@ -59,11 +58,9 @@ function start(_size, difficulty) {
 		
 		let empties = [];
 		for (let i = 0; i < emptyPositions; i++) {
-			console.log('TAKE');
 			let field = nonEditableFields()[Math.floor(Math.random() * size * size)];
 			field.editable = true;
 			field.td.addEventListener('click', e => {
-				console.log('EDIT');
 				editedField = fields.filter(field => field.td.id === e.target.id)[0];
 				if (editedField.td.className !== '') {
 					editedField.td.className = '';
@@ -86,8 +83,6 @@ function start(_size, difficulty) {
 					$('#control').hide();
 					if (isWin() === 0) {
 						$('#content').load('win.html', () => {
-							console.log('win');
-							
 							let count = 1;
 							timer = setInterval(function() {
 								$('#restart').val('Vissza a menübe (' + (15 - count) + ')');
