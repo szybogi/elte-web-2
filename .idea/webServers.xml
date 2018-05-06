@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="8891eee4-d6ee-4e11-8f84-b7597d87f2c5" name="webprogramozas-szybogi" url="http://webprogramozas.inf.elte.hu">
+        <fileTransfer host="webprogramozas.inf.elte.hu" port="22" rootFolder="/home/hallgatok/szybogi/www/wf2-8/ColorSudoku/" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
